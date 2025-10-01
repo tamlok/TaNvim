@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
 -- Configuration documentation can be found with `:h astrocore`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -10,41 +8,16 @@ return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
   opts = {
-    -- Configure core features of AstroNvim
-    features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics = { virtual_text = true, virtual_lines = false }, -- diagnostic settings on startup
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
-    },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
-    diagnostics = {
-      virtual_text = true,
-      underline = true,
-    },
-    -- passed to `vim.filetype.add`
-    filetypes = {
-      -- see `:h vim.filetype.add` for usage
-      extension = {
-        foo = "fooscript",
-      },
-      filename = {
-        [".foorc"] = "fooscript",
-      },
-      pattern = {
-        [".*/etc/foo/.*"] = "fooscript",
-      },
-    },
     -- vim options can be configured here
     options = {
       opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+        wrap = true, -- sets vim.opt.wrap
+        guifont = { "SauceCodePro Nerd Font Mono:h13" }, -- sets guifont for nvy
+        clipboard = {}, -- do not connect to the system clipboard
+        laststatus = 2, -- local statusline
+        scrolloff = 3, -- number of lines to keep above or below the cursor line
+        colorcolumn = "101",
+        autoread = false
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -59,26 +32,116 @@ return {
       n = {
         -- second key is the lefthand side of the map
 
-        -- navigate buffer tabs
-        ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
-        -- mappings seen under group name "Buffer"
-        ["<Leader>bd"] = {
-          function()
-            require("astroui.status.heirline").buffer_picker(
-              function(bufnr) require("astrocore.buffer").close(bufnr) end
-            )
-          end,
-          desc = "Close buffer from tabline",
-        },
-
         -- tables with just a `desc` key will be registered with which-key if it's installed
         -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
+        ["<Leader>r"] = { desc = "Run" },
+        ["<leader>ra"] = {
+          function()
+            if vim.fn.exists(":AsyncRun") > 0 then
+                -- Prefill command-line with ":AsyncRun " so you can type arguments
+                local keys = vim.api.nvim_replace_termcodes(":AsyncRun ", true, false, true)
+                vim.api.nvim_feedkeys(keys, "n", false)
+            end
+          end,
+          desc = "Run an async command",
+        },
+
+        -- windows management
+        ["<Leader>w"] = { desc = "Windows" },
+        ["<Leader>ww"] = { "<cmd>w<cr>", desc = "Save" },
+        ["<Leader>wq"] = { "<cmd>confirm q<cr>", desc = "Quit" },
+        ["<Leader>wQ"] = { "<cmd>confirm qall<cr>", desc = "Quit all" },
+        ["<Leader>wt"] = { "<cmd>tabedit<cr>", desc = "New tab" },
+        ["<Leader>wT"] = { "<cmd>tabclose<cr>", desc = "Close tab" },
+        ["<Leader>wz"] = {
+          function()
+            if vim.t.zoomed == true then
+              vim.cmd("execute t:zoom_winresetcmd")
+              vim.t.zoomed = false
+            else
+              vim.t.zoom_winresetcmd = vim.fn.winrestcmd()
+              vim.cmd("resize")
+              vim.cmd("vertical resize")
+              vim.t.zoomed = true
+            end
+          end,
+          desc = "Zoom/Restore current window" },
+        ["<Leader>wc"] = {
+          function()
+            local beforeCnt = vim.call("winnr", "$")
+            vim.cmd("copen")
+            if beforeCnt == vim.call("winnr", "$") then
+              vim.cmd("cclose")
+            end
+          end,
+          desc = "Toggle quickfix list"
+        },
+        ["<Leader>wl"] = {
+          function()
+            local beforeCnt = vim.call("winnr", "$")
+            vim.cmd("lopen")
+            if beforeCnt == vim.call("winnr", "$") then
+              vim.cmd("lclose")
+            end
+          end,
+          desc = "Toggle location list"
+        },
+        -- NeoTree
+        ["<Leader>we"] = { "<cmd>Neotree toggle reveal<cr>", desc = "Toggle explorer" },
+        ["<Leader>wo"] = {
+          function()
+            if vim.bo.filetype == "neo-tree" then
+              vim.cmd.wincmd "p"
+            else
+              vim.cmd.Neotree "focus"
+            end
+          end,
+          desc = "Toggle explorer focus",
+        },
+
+        -- tag navigation
+        ["]o"] = { "<cmd>tnext<cr>", desc = "Next tag" },
+        ["[o"] = { "<cmd>tprevious<cr>", desc = "Previous tag" },
+        ["]O"] = { "<cmd>tlast<cr>", desc = "Last tag" },
+        ["[O"] = { "<cmd>tfirst<cr>", desc = "First tag" },
+
+        -- copy/paste
+        ["<Leader>s"] = { '"+', desc = "Use the selection register" },
+        ["<Leader>o"] = { '"_', desc = "Use the black hole register" },
+        ["<Leader>."] = { '<cmd>"+yiw<cr>', desc = "Yank the word under cursor" },
+        ["<Leader><Space>"] = { "<cmd>nohlsearch<cr>", desc = "No highlight search" },
+
+        -- picker
+        ["<Leader>fd"] = {
+          function()
+            local dir = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":p:h")
+            require("snacks").picker.files({ cwd = dir })
+          end,
+          desc = "Find files in current buffer's directory"
+        },
+        ["<Leader>fa"] = {
+          function()
+            require("ctags-outline").snacks_ctags_outline()
+          end,
+          desc = "Find CTags outlines in current buffer"
+        },
+        ["<Leader>fA"] = {
+          function()
+            require("ctags-outline").snacks_ctags_outline({ buf = "all" })
+          end,
+          desc = "Find CTags outlines in all open buffers"
+        },
 
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
+        ["j"] = false,
+        ["k"] = false,
+        ["<Leader>e"] = false,
+      },
+      v = {
+        -- copy/paste
+        ["<Leader>s"] = { '"+', desc = "Use the selection register" },
+        ["<Leader>o"] = { '"_', desc = "Use the black hole register" },
       },
     },
   },
