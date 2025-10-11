@@ -132,6 +132,22 @@ return {
           desc = "Find CTags outlines in all open buffers"
         },
 
+        -- code companion
+        ["<Leader>A"] = false,
+        ["<Leader>Ac"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>Aq"] = false,
+        ["<Leader>a"] = { desc = "Code Companion" },
+        ["<Leader>at"] = { "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle chat buffer" },
+        ["<Leader>aa"] = { "<cmd>CodeCompanionActions<cr>", desc = "Open the Action Palette" },
+        ["<Leader>ai"] = { "<cmd>CodeCompanion<cr>", desc = "Open the inline assistant" },
+        ["<Leader>ao"] = {
+          function()
+            vim.api.nvim_feedkeys(":CodeCompanionCmd ", "n", false)
+          end,
+          desc = "Generate a command in command line"
+        },
+
         -- setting a mapping to false will disable it
         -- ["<C-S>"] = false,
         ["j"] = false,
@@ -139,6 +155,25 @@ return {
         ["<Leader>e"] = false,
       },
       v = {
+        -- code companion
+        ["<Leader>A"] = false,
+        ["<Leader>Aa"] = false,
+        ["<Leader>Ac"] = false,
+        ["<Leader>Ap"] = false,
+        ["<Leader>Aq"] = false,
+        ["<Leader>a"] = { desc = "Code Companion" },
+        ["<Leader>at"] = { "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle chat buffer" },
+        ["<Leader>aa"] = { "<cmd>CodeCompanionActions<cr>", desc = "Open the Action Palette" },
+        ["<Leader>ai"] = { "<cmd>CodeCompanion<cr>", desc = "Open the inline assistant" },
+        ["<Leader>ao"] = {
+          function()
+            vim.api.nvim_feedkeys(":CodeCompanionCmd ", "v", false)
+          end,
+          desc = "Generate a command in command line"
+        },
+
+        ["<Leader>ap"] = { "<cmd>CodeCompanionChat Add<cr>", desc = "Add visually selected chat to the current chat buffer" },
+
         -- copy/paste
         ["<Leader>s"] = { '"+', desc = "Use the selection register" },
         ["<Leader>o"] = { '"_', desc = "Use the black hole register" },
