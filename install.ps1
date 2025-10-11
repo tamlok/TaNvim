@@ -7,6 +7,7 @@ function Setup-Neovim
 {
     Write-Host "Setup NeoVim"
     $filesFolder = $env:USERPROFILE + '\AppData\Local\nvim'
+    Remove-Item -Path "$filesFolder" -Recurse -Force
     robocopy ".\" "$filesFolder" /E /MT /XD .git /XF .git* > $null
 }
 
