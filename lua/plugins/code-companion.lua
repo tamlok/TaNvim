@@ -28,6 +28,38 @@ return {
         auto_scroll = false,
       },
     },
+    prompt_library = {
+      ["project_summary"] = {
+        strategy = "chat",
+        description = "Summarize current project architecture and conventions into Markdown memory",
+        opts = {
+          contains_code = true,
+        },
+        prompts = {
+          {
+            role = "system",
+            content = [[
+You are an expert software architect. Produce a concise, accurate Markdown summary of the project:
+- High-level architecture & modules
+- Data flow & key dependencies
+- Coding conventions, patterns, and pitfalls
+- Build/test/deploy workflows
+- Glossary of internal terms
+Keep it maintainable: use headings, lists, code fences for examples, and link filenames/paths.
+If information is missing, ask for specific files next.
+            ]],
+          },
+          {
+            role = "user",
+            content = [[
+Please analyze the current project context, then output an updated Markdown section.
+Target output file: docs/PROJECT_MEMORY.md
+If needed, request specific files via follow-up.
+            ]],
+          },
+        },
+      },
+    },
     memory = {
       default = {
         description = "Collection of common files for all projects",
