@@ -105,8 +105,8 @@ return {
         ["[O"] = { "<cmd>tfirst<cr>", desc = "First tag" },
 
         -- copy/paste
-        ["<Leader>s"] = { '"+', desc = "Use the selection register" },
-        ["<Leader>o"] = { '"_', desc = "Use the black hole register" },
+        ["<Leader>="] = { '"+', desc = "Use the selection register" },
+        ["<Leader>-"] = { '"_', desc = "Use the black hole register" },
         ["<Leader>."] = { '<cmd>"+yiw<cr>', desc = "Yank the word under cursor" },
         ["<Leader><Space>"] = { "<cmd>nohlsearch<cr>", desc = "No highlight search" },
 
@@ -133,92 +133,20 @@ return {
 
         -- AI
         ["<Leader>a"] = { desc = "🤖AI Agent" },
-        ["<Leader>at"] = {
-          function()
-            require("opencode").toggle()
-          end,
-          desc = "Toggle chat buffer"
-        },
-        ["<Leader>ac"] = {
-          function()
-            require("opencode").command()
-          end,
-          desc = "Select commands"
-        },
-        ["<Leader>ai"] = {
-          function()
-            require("opencode").command("session_interrupt")
-          end,
-          desc = "Interrupt session"
-        },
-        ["<Leader>aa"] = {
-          function()
-            require("opencode").ask("@this: ", { submit = true })
-          end,
-          desc = "Ask about this"
-        },
-        ["<Leader>ap"] = {
-          function()
-            require("opencode").prompt("@this:")
-          end,
-          desc = "Add this context"
-        },
-        ["<Leader>as"] = {
-          function()
-            require("opencode").select()
-          end,
-          desc = "Select prompt"
-        },
-        ["<S-C-u>"] = {
-          function()
-            require("opencode").command("messages_half_page_up")
-          end,
-          desc = "Scroll half page up in chat"
-        },
-        ["<S-C-d>"] = {
-          function()
-            require("opencode").command("messages_half_page_down")
-          end,
-          desc = "Scroll half page down in chat"
-        },
 
         -- setting a mapping to false will disable it
-        -- ["<C-S>"] = false,
         ["j"] = false,
         ["k"] = false,
         ["<Leader>e"] = false,
+        ["<Leader>o"] = false,
       },
       v = {
         -- AI
         ["<Leader>a"] = { desc = "🤖AI Agent" },
-        ["<Leader>at"] = {
-          function()
-            require("opencode").toggle()
-          end,
-          desc = "Toggle chat buffer"
-        },
-        ["<Leader>aa"] = {
-          function()
-            require("opencode").ask("@this: ", { submit = true })
-          end,
-          desc = "Ask about this"
-        },
-        ["<Leader>ap"] = {
-          function()
-            require("opencode").prompt("@this:")
-          end,
-          desc = "Add this context"
-        },
-        ["<Leader>as"] = {
-          function()
-            require("opencode").select()
-          end,
-          desc = "Select prompt"
-        },
 
         -- copy/paste
-        ["<Leader>s"] = { '"+', desc = "Use the selection register" },
-        ["<Leader>o"] = { '"_', desc = "Use the black hole register" },
+        ["<Leader>="] = { '"+', desc = "Use the selection register" },
+        ["<Leader>-"] = { '"_', desc = "Use the black hole register" },
       },
     },
   },
