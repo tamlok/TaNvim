@@ -4,7 +4,6 @@
 
 ---@type LazySpec
 return {
-  "AstroNvim/astrocommunity",
-  { import = "astrocommunity.editing-support.codecompanion-nvim" }
+  -- "AstroNvim/astrocommunity",
   -- import/override with your plugins folder
 }

@@ -17,7 +17,6 @@ return {
         laststatus = 2, -- local statusline
         scrolloff = 3, -- number of lines to keep above or below the cursor line
         colorcolumn = "101",
-        autoread = false
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
@@ -132,20 +131,55 @@ return {
           desc = "Find CTags outlines in all open buffers"
         },
 
-        -- code companion
-        ["<Leader>A"] = false,
-        ["<Leader>Ac"] = false,
-        ["<Leader>Ap"] = false,
-        ["<Leader>Aq"] = false,
-        ["<Leader>a"] = { desc = "Code Companion" },
-        ["<Leader>at"] = { "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle chat buffer" },
-        ["<Leader>aa"] = { "<cmd>CodeCompanionActions<cr>", desc = "Open the Action Palette" },
-        ["<Leader>ai"] = { "<cmd>CodeCompanion<cr>", desc = "Open the inline assistant" },
-        ["<Leader>ao"] = {
+        -- AI
+        ["<Leader>a"] = { desc = "🤖 AI Agent" },
+        ["<Leader>at"] = {
           function()
-            vim.api.nvim_feedkeys(":CodeCompanionCmd ", "n", false)
+            require("opencode").toggle()
           end,
-          desc = "Generate a command in command line"
+          desc = "Toggle chat buffer"
+        },
+        ["<Leader>ac"] = {
+          function()
+            require("opencode").command()
+          end,
+          desc = "Select commands"
+        },
+        ["<Leader>ai"] = {
+          function()
+            require("opencode").command("session_interrupt")
+          end,
+          desc = "Interrupt session"
+        },
+        ["<Leader>aa"] = {
+          function()
+            require("opencode").ask("@this: ", { submit = true })
+          end,
+          desc = "Ask about this"
+        },
+        ["<Leader>ap"] = {
+          function()
+            require("opencode").prompt("@this:")
+          end,
+          desc = "Add this context"
+        },
+        ["<Leader>as"] = {
+          function()
+            require("opencode").select()
+          end,
+          desc = "Select prompt"
+        },
+        ["<S-C-u>"] = {
+          function()
+            require("opencode").command("messages_half_page_up")
+          end,
+          desc = "Scroll half page up in chat"
+        },
+        ["<S-C-d>"] = {
+          function()
+            require("opencode").command("messages_half_page_down")
+          end,
+          desc = "Scroll half page down in chat"
         },
 
         -- setting a mapping to false will disable it
@@ -155,24 +189,32 @@ return {
         ["<Leader>e"] = false,
       },
       v = {
-        -- code companion
-        ["<Leader>A"] = false,
-        ["<Leader>Aa"] = false,
-        ["<Leader>Ac"] = false,
-        ["<Leader>Ap"] = false,
-        ["<Leader>Aq"] = false,
-        ["<Leader>a"] = { desc = "Code Companion" },
-        ["<Leader>at"] = { "<cmd>CodeCompanionChat Toggle<cr>", desc = "Toggle chat buffer" },
-        ["<Leader>aa"] = { "<cmd>CodeCompanionActions<cr>", desc = "Open the Action Palette" },
-        ["<Leader>ai"] = { "<cmd>CodeCompanion<cr>", desc = "Open the inline assistant" },
-        ["<Leader>ao"] = {
+        -- AI
+        ["<Leader>a"] = { desc = "🤖 AI Agent" },
+        ["<Leader>at"] = {
           function()
-            vim.api.nvim_feedkeys(":CodeCompanionCmd ", "v", false)
+            require("opencode").toggle()
           end,
-          desc = "Generate a command in command line"
+          desc = "Toggle chat buffer"
         },
-
-        ["<Leader>ap"] = { "<cmd>CodeCompanionChat Add<cr>", desc = "Add visually selected chat to the current chat buffer" },
+        ["<Leader>aa"] = {
+          function()
+            require("opencode").ask("@this: ", { submit = true })
+          end,
+          desc = "Ask about this"
+        },
+        ["<Leader>ap"] = {
+          function()
+            require("opencode").prompt("@this:")
+          end,
+          desc = "Add this context"
+        },
+        ["<Leader>as"] = {
+          function()
+            require("opencode").select()
+          end,
+          desc = "Select prompt"
+        },
 
         -- copy/paste
         ["<Leader>s"] = { '"+', desc = "Use the selection register" },
