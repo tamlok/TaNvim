@@ -132,7 +132,7 @@ return {
         },
 
         -- AI
-        ["<Leader>a"] = { desc = "🤖 AI Agent" },
+        ["<Leader>a"] = { desc = "🤖AI Agent" },
         ["<Leader>at"] = {
           function()
             require("opencode").toggle()
@@ -190,7 +190,7 @@ return {
       },
       v = {
         -- AI
-        ["<Leader>a"] = { desc = "🤖 AI Agent" },
+        ["<Leader>a"] = { desc = "🤖AI Agent" },
         ["<Leader>at"] = {
           function()
             require("opencode").toggle()
