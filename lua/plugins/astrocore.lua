@@ -17,6 +17,8 @@ return {
         laststatus = 2, -- local statusline
         scrolloff = 3, -- number of lines to keep above or below the cursor line
         colorcolumn = "101",
+        list = true,
+        listchars = { tab = "▸ ", trail = "●", extends = "❯", precedes = "❮", nbsp = "␣" },
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
