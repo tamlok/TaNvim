@@ -1,10 +1,6 @@
 return {
   "sudo-tee/opencode.nvim",
-  cmd = { "Opencode" },
-  keys = {
-    { "<leader>ag", function() require("opencode.api").toggle() end, desc = "Toggle opencode" },
-    { "<leader>ai", function() require("opencode.api").open_input() end, desc = "Open opencode and focus on the input window in INSERT mode" },
-  },
+  event = "VeryLazy",
   config = function()
     require("opencode").setup({
       keymap_prefix = "<Leader>a",
@@ -12,7 +8,7 @@ return {
         input_window = {
           ["<esc>"] = false,
           ["C-["] = false,
-          ["<cr>"] = { 'submit_input_prompt', mode = { 'n' } }, -- Submit prompt
+          ["<cr>"] = { 'submit_input_prompt', mode = { 'n' } }, -- Submit promp
         },
       },
       ui = {
