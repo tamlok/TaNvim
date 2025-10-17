@@ -8,7 +8,11 @@ return {
         input_window = {
           ["<esc>"] = false,
           ["C-["] = false,
-          ["<cr>"] = { 'submit_input_prompt', mode = { 'n' } }, -- Submit promp
+          ["<cr>"] = { "submit_input_prompt", mode = { "n" } }, -- Submit promp
+        },
+        output_window = {
+          ["<esc>"] = false,
+          ["<C-[>"] = false,
         },
       },
       ui = {
