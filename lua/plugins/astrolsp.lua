@@ -8,6 +8,9 @@ return {
   "AstroNvim/astrolsp",
   ---@type AstroLSPOpts
   opts = {
+    formatting = {
+      format_on_save = false,
+    },
     -- mappings to be set up on attaching of a language server
     mappings = {
       n = {
