@@ -6,6 +6,9 @@ return {
   opts = {
     suggestion = {
       auto_trigger = true,
+      keymap = {
+        accept = "<C-l>",
+      },
     },
   },
   specs = {
