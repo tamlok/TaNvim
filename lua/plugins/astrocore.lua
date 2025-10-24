@@ -132,6 +132,11 @@ return {
           end,
           desc = "Find CTags outlines in all open buffers"
         },
+        -- do not show ignored files
+        ["<Leader>fW"] = {
+          function() require("snacks").picker.grep { hidden = true, ignored = false } end,
+          desc = "Find words in all files (including hidden, excluding ignored)",
+        },
 
         -- AI
         ["<Leader>a"] = { desc = "🤖AI Agent" },
