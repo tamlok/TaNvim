@@ -27,6 +27,9 @@ return {
           }
         }
       },
+      server = {
+        startup_timeout_ms = 15000,
+      },
       context = {
         cursor_data = {
           enabled = true,
