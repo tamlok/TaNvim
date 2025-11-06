@@ -138,9 +138,6 @@ return {
           desc = "Find words in all files (including hidden, excluding ignored)",
         },
 
-        -- AI
-        ["<Leader>a"] = { desc = "🤖AI Agent" },
-
         -- setting a mapping to false will disable it
         ["j"] = false,
         ["k"] = false,
@@ -148,9 +145,6 @@ return {
         ["<Leader>o"] = false,
       },
       v = {
-        -- AI
-        ["<Leader>a"] = { desc = "🤖AI Agent" },
-
         -- copy/paste
         ["<Leader>="] = { '"+', desc = "Use the selection register" },
         ["<Leader>-"] = { '"_', desc = "Use the black hole register" },
