@@ -1,10 +1,13 @@
 return {
   "sudo-tee/opencode.nvim",
-  event = "VeryLazy",
+  cmd = { "Opencode" },
   config = function()
     require("opencode").setup({
       keymap_prefix = "<Leader>a",
       keymap = {
+        editor = {
+          ['<leader>ai'] = false,
+        },
         input_window = {
           ["<esc>"] = false,
           ["C-["] = false,
