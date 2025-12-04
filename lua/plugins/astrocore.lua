@@ -138,9 +138,6 @@ return {
           desc = "Find words in all files (including hidden, excluding ignored)",
         },
 
-        -- AI.
-        ["<Leader>ai"] = { function() require("opencode.api").open_input() end, desc = "Open Opencode input window" },
-
         ["j"] = false,
         ["k"] = false,
         ["<Leader>e"] = false,
@@ -150,9 +147,6 @@ return {
         -- copy/paste
         ["<Leader>="] = { '"+', desc = "Use the selection register" },
         ["<Leader>-"] = { '"_', desc = "Use the black hole register" },
-
-        -- AI.
-        ["<Leader>ai"] = { function() require("opencode.api").open_input() end, desc = "Open Opencode input window" },
       },
     },
   },

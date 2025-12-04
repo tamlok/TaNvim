@@ -1,13 +1,18 @@
 return {
   "sudo-tee/opencode.nvim",
-  cmd = { "Opencode" },
+  cond = function() return vim.fn.executable("opencode") == 1 end,
+  cmd = "Opencode",
+  keys = {
+    { "<leader>ag", desc = "Toggle Opencode", mode = { "n", "v" } },
+    { "<leader>ai", desc = "Open Opencode and focus on the input window", mode = { "n", "v" } },
+    { "<leader>aI", desc = "Start a new session and focus on the input window", mode = { "n", "v" } },
+    { "<leader>as", desc = "Select and load an Opencode session", mode = { "n", "v" } },
+  },
   config = function()
     require("opencode").setup({
       keymap_prefix = "<Leader>a",
+      default_mode = "plan",
       keymap = {
-        editor = {
-          ['<leader>ai'] = false,
-        },
         input_window = {
           ["<esc>"] = false,
           ["C-["] = false,
