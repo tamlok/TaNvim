@@ -19,6 +19,8 @@ return {
         colorcolumn = "101",
         list = true,
         listchars = { tab = "▸ ", trail = "●", extends = "❯", precedes = "❮", nbsp = "␣" },
+        fileformat = "unix",
+        fileformats = { "unix", "dos", "mac" },
       },
       g = { -- vim.g.<key>
         -- configure global vim variables (vim.g)
