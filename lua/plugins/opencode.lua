@@ -1,48 +1,26 @@
 return {
-  "sudo-tee/opencode.nvim",
+  "NickvanDyke/opencode.nvim",
+  dependencies = {
+    -- Recommended for `ask()` and `select()`.
+    -- Required for `snacks` provider.
+    ---@module 'snacks' <- Loads `snacks.nvim` types for configuration intellisense.
+    { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+  },
   cond = function() return vim.fn.executable("opencode") == 1 end,
-  cmd = "Opencode",
   keys = {
-    { "<leader>ag", desc = "Toggle Opencode", mode = { "n", "v" } },
-    { "<leader>ai", desc = "Open Opencode and focus on the input window", mode = { "n", "v" } },
-    { "<leader>aI", desc = "Start a new session and focus on the input window", mode = { "n", "v" } },
-    { "<leader>as", desc = "Select and load an Opencode session", mode = { "n", "v" } },
+    { "<leader>aa", function() require("opencode").ask("@this: ", { submit = true }) end, desc = "Ask opencode", mode = { "n", "v" } },
+    { "<leader>ax", function() require("opencode").select() end, desc = "Execute opencode action", mode = { "n", "v" } },
+    { "<leader>ag", function() require("opencode").toggle() end, desc = "Toggle opencode", mode = { "n", "v" } },
+    { "go", function() return require("opencode").operator("@this ") end, desc = "Add range to opencode", mode = { "n", "v" }, expr = true },
+    { "goo", function() return require("opencode").operator("@this ") .. "_" end, desc = "Add line to opencode", mode = { "n" }, expr = true },
   },
   config = function()
-    require("opencode").setup({
-      keymap_prefix = "<Leader>a",
-      default_mode = "plan",
-      keymap = {
-        input_window = {
-          ["<esc>"] = false,
-          ["C-["] = false,
-          ["<cr>"] = { "submit_input_prompt", mode = { "n" } }, -- Submit promp
-        },
-        output_window = {
-          ["<esc>"] = false,
-          ["<C-[>"] = false,
-        },
-      },
-      ui = {
-        input = {
-          text = {
-            wrap = true, -- Wraps text inside input window
-          },
-        },
-        completion = {
-          file_sources = {
-            preferred_cli_tool = "rg",
-          }
-        }
-      },
-      server = {
-        startup_timeout_ms = 15000,
-      },
-      context = {
-        cursor_data = {
-          enabled = true,
-        },
-      },
-    })
+    ---@type opencode.Opts
+    vim.g.opencode_opts = {
+      -- Your configuration, if any — see `lua/opencode/config.lua`, or "goto definition" on the type or field.
+    }
+
+    -- Required for `opts.events.reload`.
+    vim.o.autoread = true
   end,
 }

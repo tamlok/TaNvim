@@ -140,6 +140,9 @@ return {
           desc = "Find words in all files (including hidden, excluding ignored)",
         },
 
+        -- AI
+        ["<Leader>a"] = { desc = "AI" },
+
         ["j"] = false,
         ["k"] = false,
         ["<Leader>e"] = false,
@@ -149,6 +152,9 @@ return {
         -- copy/paste
         ["<Leader>="] = { '"+', desc = "Use the selection register" },
         ["<Leader>-"] = { '"_', desc = "Use the black hole register" },
+
+        -- AI
+        ["<Leader>a"] = { desc = "AI" },
       },
     },
   },
