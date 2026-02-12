@@ -9,6 +9,6 @@ return {
   ---@type AstroUIOpts
   opts = {
     -- change colorscheme
-    colorscheme = "astrolight",
+    colorscheme = "everforest",
   },
 }
