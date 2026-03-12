@@ -142,6 +142,13 @@ return {
 
         -- AI
         ["<Leader>a"] = { desc = "AI" },
+        ["<leader>ar"] = {
+          function()
+            require("opencode").stop()
+            require("opencode").start()
+          end,
+          desc = "Restart opencode server",
+        },
 
         ["j"] = false,
         ["k"] = false,
