@@ -1,90 +1,178 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- You can also add or configure plugins by creating files in this `plugins/` folder
--- PLEASE REMOVE THE EXAMPLES YOU HAVE NO INTEREST IN BEFORE ENABLING THIS FILE
--- Here are some examples:
-
 ---@type LazySpec
 return {
-
-  -- == Examples of Adding Plugins ==
-
-  "andweeb/presence.nvim",
   {
-    "ray-x/lsp_signature.nvim",
-    event = "BufRead",
-    config = function() require("lsp_signature").setup() end,
+    "sainnhe/everforest",
+    lazy = false,
+    priority = 1000,
+    init = function()
+      vim.g.everforest_enable_italic = true
+      vim.g.everforest_better_performance = true
+    end,
   },
-
-  -- == Examples of Overriding Plugins ==
-
-  -- customize dashboard options
   {
     "folke/snacks.nvim",
     opts = {
       dashboard = {
-        preset = {
-          header = table.concat({
-            " █████  ███████ ████████ ██████   ██████ ",
-            "██   ██ ██         ██    ██   ██ ██    ██",
-            "███████ ███████    ██    ██████  ██    ██",
-            "██   ██      ██    ██    ██   ██ ██    ██",
-            "██   ██ ███████    ██    ██   ██  ██████ ",
-            "",
-            "███    ██ ██    ██ ██ ███    ███",
-            "████   ██ ██    ██ ██ ████  ████",
-            "██ ██  ██ ██    ██ ██ ██ ████ ██",
-            "██  ██ ██  ██  ██  ██ ██  ██  ██",
-            "██   ████   ████   ██ ██      ██",
-          }, "\n"),
+        enabled = false,
+      },
+      picker = {
+        win = {
+          input = {
+            keys = {
+              ["<c-u>"] = { "list_scroll_up", mode = { "n" } },
+            },
+          },
         },
       },
     },
   },
-
-  -- You can disable default plugins as follows:
   { "max397574/better-escape.nvim", enabled = false },
-
-  -- You can also easily customize additional setup of plugins that is outside of the plugin's setup call
   {
-    "L3MON4D3/LuaSnip",
-    config = function(plugin, opts)
-      -- add more custom luasnip configuration such as filetype extend or custom snippets
-      local luasnip = require "luasnip"
-      luasnip.filetype_extend("javascript", { "javascriptreact" })
-
-      -- include the default astronvim config that calls the setup call
-      require "astronvim.plugins.configs.luasnip"(plugin, opts)
+    "fcying/telescope-ctags-outline.nvim",
+    lazy = true,
+    config = function() require("ctags-outline").setup {} end,
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    event = "BufReadPost",
+    opts = {
+      suggestion = {
+        auto_trigger = true,
+        keymap = {
+          accept = "<C-l>",
+        },
+      },
+    },
+  },
+  {
+    "AstroNvim/astrocore",
+    opts = function(_, opts)
+      opts.options = opts.options or {}
+      opts.options.g = opts.options.g or {}
+      opts.options.g.ai_accept = function()
+        if require("copilot.suggestion").is_visible() then
+          require("copilot.suggestion").accept()
+          return true
+        end
+      end
     end,
   },
-
   {
-    "windwp/nvim-autopairs",
-    config = function(plugin, opts)
-      require "astronvim.plugins.configs.nvim-autopairs"(plugin, opts) -- include the default astronvim config that calls the setup call
-      -- add more custom autopairs configuration such as custom rules
-      local npairs = require "nvim-autopairs"
-      local Rule = require "nvim-autopairs.rule"
-      local cond = require "nvim-autopairs.conds"
-      npairs.add_rules(
-        {
-          Rule("$", "$", { "tex", "latex" })
-            -- don't add a pair if the next character is %
-            :with_pair(cond.not_after_regex "%%")
-            -- don't add a pair if  the previous character is xxx
-            :with_pair(
-              cond.not_before_regex("xxx", 3)
-            )
-            -- don't move right when repeat character
-            :with_move(cond.none())
-            -- don't delete if the next character is xx
-            :with_del(cond.not_after_regex "xx")
-            -- disable adding a newline when you press <cr>
-            :with_cr(cond.none()),
-        },
-        -- disable for .vim files, but it work for another filetypes
-        Rule("a", "a", "-vim")
-      )
+    "rebelot/heirline.nvim",
+    opts = function(_, opts)
+      opts.statusline = opts.statusline or {
+        hl = { fg = "fg", bg = "bg" },
+      }
+
+      table.insert(opts.statusline, 1, {
+        provider = function() return ("%d "):format(vim.fn.bufnr()) end,
+      })
+
+      return opts
     end,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    opts = {
+      enable_normal_mode_for_inputs = true,
+      window = {
+        mappings = {
+          ["<space>"] = "none",
+          ["h"] = "none",
+          ["j"] = "none",
+          ["k"] = "none",
+          ["l"] = "none",
+          ["w"] = "none",
+          ["e"] = "none",
+          ["b"] = "none",
+          ["W"] = "none",
+          ["E"] = "none",
+          ["B"] = "none",
+          ["y"] = "none",
+          ["Y"] = "none",
+        },
+      },
+    },
+  },
+  {
+    "NeogitOrg/neogit",
+    lazy = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "sindrets/diffview.nvim",
+      "folke/snacks.nvim",
+    },
+    cmd = "Neogit",
+    keys = {
+      { "<Leader>gg", "<cmd>Neogit<cr>", desc = "Show Neogit UI" },
+      {
+        "<Leader>gf",
+        function() require("neogit").open { kind = "floating" } end,
+        desc = "Show Neogit UI float",
+      },
+    },
+    opts = {
+      auto_refresh = false,
+      sections = {
+        recent = {
+          folded = true,
+          hidden = true,
+        },
+      },
+    },
+  },
+  {
+    "NickvanDyke/opencode.nvim",
+    dependencies = {
+      { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
+    },
+    cond = function() return vim.fn.executable("opencode") == 1 end,
+    keys = {
+      {
+        "<Leader>aa",
+        function() require("opencode").ask("@this: ", { submit = true }) end,
+        desc = "Ask opencode",
+        mode = { "n", "v" },
+      },
+      {
+        "<Leader>ax",
+        function() require("opencode").select() end,
+        desc = "Execute opencode action",
+        mode = { "n", "v" },
+      },
+      {
+        "<Leader>ag",
+        function() require("opencode").toggle() end,
+        desc = "Toggle opencode",
+        mode = { "n", "v" },
+      },
+      {
+        "go",
+        function() return require("opencode").operator("@this ") end,
+        desc = "Add range to opencode",
+        mode = { "n", "v" },
+        expr = true,
+      },
+      {
+        "goo",
+        function() return require("opencode").operator("@this ") .. "_" end,
+        desc = "Add line to opencode",
+        mode = { "n" },
+        expr = true,
+      },
+    },
+    config = function()
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {}
+      vim.o.autoread = true
+    end,
+  },
+  {
+    "mrjones2014/smart-splits.nvim",
+    opts = {
+      at_edge = "stop",
+    },
   },
 }
