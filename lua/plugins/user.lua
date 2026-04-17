@@ -6,7 +6,6 @@ return {
     priority = 1000,
     init = function()
       vim.g.everforest_enable_italic = true
-      vim.g.everforest_better_performance = true
     end,
   },
   {
