@@ -17,9 +17,10 @@ return {
       n = {
         ["<Leader>lc"] = {
           function()
-            local has_cmd = vim.fn.exists(":ClangdSwitchSourceHeader") > 0
-              or vim.api.nvim_get_commands({ builtin = false }).ClangdSwitchSourceHeader ~= nil
-            if has_cmd then vim.cmd "ClangdSwitchSourceHeader" end
+            local params = { uri = vim.uri_from_bufnr(0) }
+            vim.lsp.buf_request(0, "textDocument/switchSourceHeader", params, function(err, result)
+              if result then vim.cmd("edit " .. vim.uri_to_fname(result)) end
+            end)
           end,
           desc = "Switch between source and header files",
           cond = function(client) return client.name == "clangd" end,
