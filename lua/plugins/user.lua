@@ -123,50 +123,17 @@ return {
     },
   },
   {
-    "NickvanDyke/opencode.nvim",
-    dependencies = {
-      { "folke/snacks.nvim", opts = { input = {}, picker = {}, terminal = {} } },
-    },
-    cond = function() return vim.fn.executable("opencode") == 1 end,
-    keys = {
-      {
-        "<Leader>aa",
-        function() require("opencode").ask("@this: ", { submit = true }) end,
-        desc = "Ask opencode",
-        mode = { "n", "v" },
-      },
-      {
-        "<Leader>ax",
-        function() require("opencode").select() end,
-        desc = "Execute opencode action",
-        mode = { "n", "v" },
-      },
-      {
-        "<Leader>ag",
-        function() require("opencode").toggle() end,
-        desc = "Toggle opencode",
-        mode = { "n", "v" },
-      },
-      {
-        "go",
-        function() return require("opencode").operator("@this ") end,
-        desc = "Add range to opencode",
-        mode = { "n", "v" },
-        expr = true,
-      },
-      {
-        "goo",
-        function() return require("opencode").operator("@this ") .. "_" end,
-        desc = "Add line to opencode",
-        mode = { "n" },
-        expr = true,
-      },
-    },
+    "sudo-tee/opencode.nvim",
     config = function()
-      ---@type opencode.Opts
-      vim.g.opencode_opts = {}
-      vim.o.autoread = true
+      require("opencode").setup({
+        keymap_prefix = '<leader>a'
+      })
     end,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      'saghen/blink.cmp',
+      'folke/snacks.nvim',
+    }
   },
   {
     "mrjones2014/smart-splits.nvim",

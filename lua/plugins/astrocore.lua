@@ -111,14 +111,9 @@ return {
           function() require("snacks").picker.grep { hidden = true, ignored = false } end,
           desc = "Find words in all files (including hidden, excluding ignored)",
         },
+
         ["<Leader>a"] = { desc = "AI" },
-        ["<Leader>ar"] = {
-          function()
-            require("opencode").stop()
-            require("opencode").start()
-          end,
-          desc = "Restart opencode server",
-        },
+
         ["j"] = false,
         ["k"] = false,
         ["<Leader>e"] = false,
