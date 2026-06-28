@@ -123,6 +123,12 @@ return {
     },
   },
   {
+    -- Pin to a tagged release: untagged "main" commits require the separate
+    -- `blink.lib` native module + cargo, which breaks startup when unavailable.
+    "saghen/blink.cmp",
+    version = "v1.*",
+  },
+  {
     "sudo-tee/opencode.nvim",
     config = function()
       require("opencode").setup({
