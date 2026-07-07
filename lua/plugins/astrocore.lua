@@ -27,6 +27,55 @@ return {
     },
     mappings = {
       n = {
+        ["<F2>"] = {
+          function()
+            local bufname = vim.api.nvim_buf_get_name(0)
+            local dir = vim.fn.fnamemodify(bufname, ":p:h")
+            if bufname == "" or vim.bo.buftype ~= "" or vim.fn.isdirectory(dir) == 0 then
+              vim.notify("No directory for current buffer", vim.log.levels.WARN)
+              return
+            end
+            vim.api.nvim_set_current_dir(dir)
+            vim.notify("cwd: " .. dir)
+          end,
+          desc = "Set cwd to current buffer's folder",
+        },
+        ["<F3>"] = {
+          function()
+            if not vim.bo.modifiable then
+              vim.notify("Buffer is not modifiable", vim.log.levels.WARN)
+              return
+            end
+            local view = vim.fn.winsaveview()
+            local tick = vim.b.changedtick
+            vim.cmd [[keeppatterns %s/\s\+$//e]]
+            vim.fn.winrestview(view)
+            if vim.b.changedtick == tick then
+              vim.notify "No trailing whitespace found"
+            else
+              vim.notify "Trailing whitespace removed"
+            end
+          end,
+          desc = "Remove trailing whitespace",
+        },
+        ["<F4>"] = {
+          function()
+            if not vim.bo.modifiable then
+              vim.notify("Buffer is not modifiable", vim.log.levels.WARN)
+              return
+            end
+            local view = vim.fn.winsaveview()
+            local tick = vim.b.changedtick
+            vim.cmd [[keeppatterns %s/\r\+$//e]]
+            vim.fn.winrestview(view)
+            if vim.b.changedtick == tick then
+              vim.notify "No trailing ^M found"
+            else
+              vim.notify "Trailing ^M removed"
+            end
+          end,
+          desc = "Remove trailing ^M (carriage returns)",
+        },
         ["<Leader>r"] = { desc = "Run" },
         ["<Leader>ra"] = {
           function()
