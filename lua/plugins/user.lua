@@ -129,17 +129,31 @@ return {
     version = "v1.*",
   },
   {
-    "sudo-tee/opencode.nvim",
-    config = function()
-      require("opencode").setup({
-        keymap_prefix = '<leader>a'
-      })
-    end,
+    "olimorris/codecompanion.nvim",
+    version = "v19.20.0",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      'saghen/blink.cmp',
-      'folke/snacks.nvim',
-    }
+      "nvim-treesitter/nvim-treesitter",
+      "HakonHarnes/img-clip.nvim",
+    },
+    config = function()
+      require("codecompanion").setup({
+        interactions = {
+          chat = {
+            adapter = {
+              name = "copilot_cli",
+              model = "claude-opus-4.8",
+            },
+          },
+          inline = {
+            adapter = {
+              name = "copilot_cli",
+              model = "claude-opus-4.8",
+            },
+          },
+        },
+      })
+    end,
   },
   {
     "mrjones2014/smart-splits.nvim",
