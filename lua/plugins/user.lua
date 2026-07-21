@@ -141,13 +141,13 @@ return {
         interactions = {
           chat = {
             adapter = {
-              name = "copilot_cli",
+              name = "copilot",
               model = "claude-opus-4.8",
             },
           },
           inline = {
             adapter = {
-              name = "copilot_cli",
+              name = "copilot",
               model = "claude-opus-4.8",
             },
           },
