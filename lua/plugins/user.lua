@@ -138,18 +138,38 @@ return {
     },
     config = function()
       require("codecompanion").setup({
+        adapters = {
+          http = {
+            copilot_astra = function()
+              return require("codecompanion.adapters").extend("copilot", {
+                schema = {
+                  model = {
+                    default = "gpt-6-astra",
+                    choices = {
+                      ["gpt-6-astra"] = {
+                        -- Keep Responses routing independent of the model-list cache.
+                        endpoint = "responses",
+                        formatted_name = "GPT-6 Astra (1M)",
+                        vendor = "OpenAI",
+                        meta = { context_window = 1000000, max_prompt_tokens = 922000 },
+                        opts = { can_stream = true, can_use_tools = true, has_vision = true },
+                      },
+                    },
+                  },
+                },
+                parameters = {
+                  reasoning = { effort = "high" },
+                },
+              })
+            end,
+          },
+        },
         interactions = {
           chat = {
-            adapter = {
-              name = "copilot",
-              model = "claude-opus-4.8",
-            },
+            adapter = "copilot_astra",
           },
           inline = {
-            adapter = {
-              name = "copilot",
-              model = "claude-opus-4.8",
-            },
+            adapter = "copilot_astra",
           },
         },
       })

@@ -32,3 +32,13 @@ git clone https://github.com/<your_user>/<your_repository> ~/.config/nvim
 ```shell
 nvim
 ```
+
+## CodeCompanion
+
+Chat and inline interactions use GitHub Copilot's `gpt-6-astra` with a 1,000,000-token
+context budget and high reasoning effort. The `copilot_astra` adapter in
+`lua/plugins/user.lua` uses the Responses API; other Copilot interactions keep
+their defaults. Long prompts may incur higher Copilot usage charges.
+
+Requires a GitHub Copilot sign-in and access to this model. If Copilot stores its
+token in `auth.db`, CodeCompanion also requires `sqlite3` on `PATH`.
